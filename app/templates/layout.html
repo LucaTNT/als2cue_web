@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% block head %}
+    <title>{% block title %}als2cue-web{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        * {
+            font-family: sans-serif;
+        }
+    </style>
+{% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <hr />
+    Powered by als2cue-web
+    {% endblock %}
+</body>
+</html>

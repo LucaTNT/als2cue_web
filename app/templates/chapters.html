@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>als2cue-web</h1>
+    <p>{{ chapters|length }} chapters found</p>
+    <ol>
+{% for chapter in chapters %}
+        <li>{{ chapter.chapter_start }}</li>
+{% endfor %}
+    </ol>
+    <p><a download="chapters.cue" href="data:application/x-cue;base64,{{ cue_base64 }}">Download .cue</a></p>
+{% endblock %}

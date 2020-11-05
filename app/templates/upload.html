@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+	<h1>als2cue-web</h1>
+	<p>This service allows you to extract marker timings from Ableton Live's .als files and produce a .cue file you can use to embed chapters into mp3 files with apps such as <a href="https://chaptersapp.com/">Podcast Chapters</a>.</p>
+	<h2>Upload .als file</h2>
+	<form action="/upload" method="post" enctype="multipart/form-data">
+		<p><input type="file" name="als" accept=".als"></p>
+		<p><input type="submit" name="upload" value="Upload"></p>
+	</form>
+{% endblock %}
