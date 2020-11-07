@@ -2,6 +2,9 @@ This simple web app allows the user to upload an Ableton Live `.als` project fil
 
 ![](demo.gif)
 
+## Demo installation
+If you're not a developer and just need this tool, you can use my demo install at [als2cue.lucatnt.com](https://als2cue.lucatnt.com/).
+
 ## How to use this thing
 You can either run this with Python (it requires Flask, so `pip3 install flask`)
 
