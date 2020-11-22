@@ -28,8 +28,6 @@ So I wrote a little script, `als2cue`, to extract the markers' timestamps and ex
 
 I examined one of them and determined that markers are saved in the `Locators` array. Each `Locator` element has a `Time` field, which determines the marker position, in "beats" (and this shows that Live is supposed to be a music production program that I'm forcing into a podcast editing app).
 
-To convert beats into minutes and seconds, the projects's tempo has to be taken into account, and we can find its value in `Tempo > Manual > Value`.
+To convert beats into minutes and seconds, the projects's tempo has to be taken into account, and it can change throughout the project (thanks to [@dokfranco](https://twitter.com/dokfranco) for the tip).
 
-So we have `bps = bpm / 60`, where `bps` is the number of beats per second.
-
-From that we can easily get to the position in seconds for each marker: `seconds = beats / bps`
+In `Tempo > AutomationTarget > Id` we can find the automation that regulates the tempo, we can then analyze the envelope to construct a tempo map throughout the arrangement. Given the tempo map and the position of each `Locator`, it is relatively trivial to calculate the timestamp of each one of them.
