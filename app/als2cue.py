@@ -32,7 +32,7 @@ def getChapters(raw_data, filename):
             j += 1
             cue += "    TRACK %s AUDIO\n" % leadingZero(j)
             cue += "        TITLE \"\"\n"
-            cue += "        INDEX 01 %s\n" % formatTimestamp(time, alsParser.getOffsetTime(time, tempo_intervals))
+            cue += "        INDEX 01 %s\n" % formatTimestamp(alsParser.getOffsetTime(time, tempo_intervals))
             if j > 1:
                 chapters.append({"chapter_number": j - 1, "chapter_start": formatTimestamp(alsParser.getOffsetTime(time, tempo_intervals), False)})
 
