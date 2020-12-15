@@ -31,10 +31,14 @@ def getChapters(raw_data, filename):
         for time in locators:
             j += 1
             cue += "    TRACK %s AUDIO\n" % leadingZero(j)
-            cue += "        TITLE \"\"\n"
-            cue += "        INDEX 01 %s\n" % formatTimestamp(alsParser.getOffsetTime(time, tempo_intervals))
+            cue += "        TITLE \"%s\"\n" % time["name"].replace("\"", "\\\"")
+            cue += "        INDEX 01 %s\n" % formatTimestamp(alsParser.getOffsetTime(time["time"], tempo_intervals))
             if j > 1:
-                chapters.append({"chapter_number": j - 1, "chapter_start": formatTimestamp(alsParser.getOffsetTime(time, tempo_intervals), False)})
+                chapters.append({
+                    "chapter_number": j - 1, 
+                    "chapter_start": formatTimestamp(alsParser.getOffsetTime(time["time"], tempo_intervals), False),
+                    "chapter_title": time["name"]
+                })
 
         return (True, chapters, cue, base64.b64encode(cue.encode('utf-8')).decode('utf-8'))
 
