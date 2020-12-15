@@ -21,12 +21,13 @@ def getOffsetTime(time_beats, tempo_intervals):
 def getLocators(als):
     locators = als.getElementsByTagName('Locator')
 
-    timestamps = [0.0]
+    timestamps = [{"time": 0.0, "name": ""}]
 
     for locator in locators:
         time = float(locator.getElementsByTagName('Time')[0].getAttribute('Value'))
-        timestamps.append(time)
-    timestamps.sort()
+        name = locator.getElementsByTagName('Name')[0].getAttribute('Value')
+        timestamps.append({"time": time, "name": name})
+    timestamps = sorted(timestamps, key=lambda k: k['time']) 
 
     return timestamps
 
