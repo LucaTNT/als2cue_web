@@ -24,10 +24,17 @@ Manually creating chapters in Podcast Chapters, however, is pretty laborious, es
 So I wrote a little script, `als2cue`, to extract the markers' timestamps and export them in a `.cue` files, which Podcast Chapters can read.
 
 ## How
-`.als` project files are basically zipped xml files.
+Thanks to [offlinemark](https://github.com/offlinemark)'s awesome [dawtool](https://github.com/offlinemark/dawtool), als2cue is able to inspect Live's `.als` project files and extract all the relevant data.
+
+## How it used to work
+Before I found [dawtool](https://github.com/offlinemark/dawtool), I parsed Live's `.als` project files manually, and I wrote what follows, it might still be helpful for somebody.
+
+`.als` project files are basically zipped XML files.
 
 I examined one of them and determined that markers are saved in the `Locators` array. Each `Locator` element has a `Time` field, which determines the marker position, in "beats" (and this shows that Live is supposed to be a music production program that I'm forcing into a podcast editing app).
 
 To convert beats into minutes and seconds, the projects's tempo has to be taken into account, and it can change throughout the project (thanks to [@dokfranco](https://twitter.com/dokfranco) for the tip).
 
 In `Tempo > AutomationTarget > Id` we can find the automation that regulates the tempo, we can then analyze the envelope to construct a tempo map throughout the arrangement. Given the tempo map and the position of each `Locator`, it is relatively trivial to calculate the timestamp of each one of them.
+
+Note: this only worked with Live >= 10, version 9 used a different XML structure that wasn't supported by my DIY parser.

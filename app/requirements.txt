@@ -1,1 +1,2 @@
 flask~=2.0
+git+https://github.com/offlinemark/dawtool@master#egg=dawtool
