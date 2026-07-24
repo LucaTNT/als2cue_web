@@ -23,8 +23,8 @@ def handleUpload():
         valid_chapters, *details = getChapters(request.files["als"].stream, request.files["als"].filename)
         if not valid_chapters:
             return render_template("error.html", error_title=details[0])
-        chapters, cue, cue_base64 = details
-        return render_template("chapters.html", chapters=chapters, cue=cue, cue_base64=cue_base64)
+        chapters, cue, cue_base64, txt, txt_base64 = details
+        return render_template("chapters.html", chapters=chapters, cue=cue, cue_base64=cue_base64, txt=txt, txt_base64=txt_base64)
     return render_template("error.html", error_title="No file uploaded", error_text="You have not uploaded any file. Go back and try again.")
 
 if __name__ == "__main__":
