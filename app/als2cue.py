@@ -18,8 +18,14 @@ def formatTimestamp(total_seconds, getFrames = True):
     
     return "%s:%s:%s" % (leadingZero(minutes), leadingZero(seconds), leadingZero(frames))
 
+ALS_MAGIC = b"\x1f\x8b" # als files are gzip-compressed XML
+
 def getChapters(stream, filename):
     try:
+        if stream.read(2) != ALS_MAGIC:
+            return (False, "Not a valid Ableton Live Set file")
+        stream.seek(0)
+
         locators = sorted(dawtool.extract_markers(filename, stream), key=lambda l: l.time)
 
         if len(locators) < 1:
