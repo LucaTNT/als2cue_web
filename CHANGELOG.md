@@ -1,3 +1,6 @@
+# 0.7 - 24/07/2026
+Fixed a track numbering bug that could produce an invalid .cue file when the first Ableton marker wasn't at 0:00, fixed the uploaded filename not being escaped in the CUE FILE line, sorted markers defensively, and rejected non-.als uploads via extension and content checks. Also added a plain-text chapter export alongside the .cue download. Thanks [@Nickyg001](https://github.com/Nickyg001) for the TXT export request in [issue #4](https://github.com/LucaTNT/als2cue_web/issues/4)!
+
 # 0.6 - 24/07/2026
 Added CUE sheet frame calculation (75 frames/sec) instead of always outputting 0 frames. Thanks [@rosecodym](https://github.com/rosecodym) for [PR #7](https://github.com/LucaTNT/als2cue_web/pull/7)!
 
