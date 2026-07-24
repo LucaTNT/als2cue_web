@@ -6,13 +6,16 @@ def leadingZero(number, digits = 2):
     return str(number).zfill(digits)
 
 def formatTimestamp(total_seconds, getFrames = True):
-    minutes = int(total_seconds / 60)
-    seconds = int(round(total_seconds - minutes * 60, 0))
+    # CUE sheets use 75 frames per second, if Wikipedia is to be believed
+    total_frames = int(round(total_seconds * 75))
+    total_seconds_from_frames = total_frames // 75
+    minutes = total_seconds_from_frames // 60
+    seconds = total_seconds_from_frames % 60
+    frames = total_frames % 75
     
     if not getFrames:
         return "%s:%s" % (leadingZero(minutes), leadingZero(seconds))
     
-    frames = 0
     return "%s:%s:%s" % (leadingZero(minutes), leadingZero(seconds), leadingZero(frames))
 
 def getChapters(stream, filename):
