@@ -20,7 +20,7 @@ def formatTimestamp(total_seconds, getFrames = True):
 
 def getChapters(stream, filename):
     try:
-        locators = dawtool.extract_markers(filename, stream)
+        locators = sorted(dawtool.extract_markers(filename, stream), key=lambda l: l.time)
 
         if len(locators) < 1:
             return (False, "No Ableton markers found")

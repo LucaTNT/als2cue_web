@@ -3,6 +3,9 @@ import os
 from flask import Flask, render_template, request
 from als2cue import getChapters
 
+def isAlsFile(filename):
+    return filename.lower().endswith(".als")
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -15,6 +18,8 @@ def handleUpload():
         return uploadForm()
         
     if ("als" in request.files and request.files["als"].filename != ""):
+        if not isAlsFile(request.files["als"].filename):
+            return render_template("error.html", error_title="Invalid file type", error_text="Please upload an Ableton Live (.als) file.")
         valid_chapters, *details = getChapters(request.files["als"].stream, request.files["als"].filename)
         if not valid_chapters:
             return render_template("error.html", error_title=details[0])
