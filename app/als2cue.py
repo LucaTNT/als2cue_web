@@ -18,29 +18,35 @@ def formatTimestamp(total_seconds, getFrames = True):
     
     return "%s:%s:%s" % (leadingZero(minutes), leadingZero(seconds), leadingZero(frames))
 
+ALS_MAGIC = b"\x1f\x8b" # als files are gzip-compressed XML
+
 def getChapters(stream, filename):
     try:
-        locators = dawtool.extract_markers(filename, stream)
+        if stream.read(2) != ALS_MAGIC:
+            return (False, "Not a valid Ableton Live Set file")
+        stream.seek(0)
+
+        locators = sorted(dawtool.extract_markers(filename, stream), key=lambda l: l.time)
 
         if len(locators) < 1:
             return (False, "No Ableton markers found")
 
         chapters = []
-        cue = "FILE \"%s.mp3\" MP3\n" % filename
+        cue = "FILE \"%s.mp3\" MP3\n" % filename.replace("\"", "\\\"")
+
+        # Make sure there's always a chapter at the beginning
+        j_offset = 1 if locators[0].time > 0 else 0
 
         for j, locator in enumerate(locators, start=1):
-            # Make sure there's always a chapter at the beginning
-            j_offset = 0
             if locator.time > 0 and j == 1:
                 cue += "    TRACK 01 AUDIO\n"
                 cue += "        TITLE \"\"\n"
                 cue += "        INDEX 01 %s\n" % formatTimestamp(0)
                 chapters.append({
-                    "chapter_number": j + j_offset, 
+                    "chapter_number": 1,
                     "chapter_start": formatTimestamp(0),
                     "chapter_title": ""
                 })
-                j_offset = 1
 
             cue += "    TRACK %s AUDIO\n" % leadingZero(j + j_offset)
             cue += "        TITLE \"%s\"\n" % locator.text.replace("\"", "\\\"")
