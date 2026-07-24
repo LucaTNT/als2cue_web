@@ -33,6 +33,7 @@ def getChapters(stream, filename):
 
         chapters = []
         cue = "FILE \"%s.mp3\" MP3\n" % filename.replace("\"", "\\\"")
+        txt = ""
 
         # Make sure there's always a chapter at the beginning
         j_offset = 1 if locators[0].time > 0 else 0
@@ -42,6 +43,7 @@ def getChapters(stream, filename):
                 cue += "    TRACK 01 AUDIO\n"
                 cue += "        TITLE \"\"\n"
                 cue += "        INDEX 01 %s\n" % formatTimestamp(0)
+                txt += "%s\n" % formatTimestamp(0, getFrames=False)
                 chapters.append({
                     "chapter_number": 1,
                     "chapter_start": formatTimestamp(0),
@@ -51,13 +53,16 @@ def getChapters(stream, filename):
             cue += "    TRACK %s AUDIO\n" % leadingZero(j + j_offset)
             cue += "        TITLE \"%s\"\n" % locator.text.replace("\"", "\\\"")
             cue += "        INDEX 01 %s\n" % formatTimestamp(locator.time)
+            txt += "%s %s\n" % (formatTimestamp(locator.time, getFrames=False), locator.text)
             chapters.append({
-                "chapter_number": j + j_offset, 
+                "chapter_number": j + j_offset,
                 "chapter_start": formatTimestamp(locator.time),
                 "chapter_title": locator.text
             })
 
-        return (True, chapters, cue, base64.b64encode(cue.encode('utf-8')).decode('utf-8'))
+        return (True, chapters,
+                cue, base64.b64encode(cue.encode('utf-8')).decode('utf-8'),
+                txt, base64.b64encode(txt.encode('utf-8')).decode('utf-8'))
 
     except Exception as e:
         return False, f"Can't read Ableton project - {e}"
