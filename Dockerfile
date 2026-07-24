@@ -1,5 +1,14 @@
-FROM tiangolo/meinheld-gunicorn-flask:python3.8-alpine3.11
+FROM python:3.12-slim
 
+WORKDIR /app
 COPY ./app /app
-ENV PYTHONPATH /usr/lib/python3.8/site-packages
-RUN apk add --no-cache py3-numpy py3-scipy git && pip3 install -r requirements.txt && apk del git
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y git \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apt-get purge -y --auto-remove git \
+    && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 80
+
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "--workers", "2", "main:app"]
