@@ -1,3 +1,6 @@
+# 0.6 - 24/07/2026
+Added CUE sheet frame calculation (75 frames/sec) instead of always outputting 0 frames. Thanks [@rosecodym](https://github.com/rosecodym) for [PR #7](https://github.com/LucaTNT/als2cue_web/pull/7)!
+
 # 0.4 - 15/12/2020
 Added support for Locator Markers Name, when available. Thanks [@facconi](https://github.com/facconi) for [PR #2](https://github.com/LucaTNT/als2cue_web/pull/2)!
 
